@@ -5,13 +5,13 @@ export const createTask = values => ({
   values,
 });
 
-export const updateTask = ({id, values}) => ({
+export const updateTask = ({ id, values }) => ({
   type: ACTION_TYPES.UPDATE_TASK,
   id,
   values,
 });
 
-export const deleteTask = () => ({
+export const deleteTask = id => ({
   type: ACTION_TYPES.DELETE_TASK,
   id,
-});
+})

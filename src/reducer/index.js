@@ -1,4 +1,4 @@
-import ACTION_TYPES from '../../actions/actionTypes';
+import ACTION_TYPES from '../actions/actionTypes';
 
 const initialState = {
   tasks: [
@@ -10,7 +10,7 @@ const initialState = {
   ],
 };
 
-let serial = 0;
+let serial = 1;
 
 function reducer (state = initialState, action) {
   switch (action.type) {
@@ -24,8 +24,35 @@ function reducer (state = initialState, action) {
         tasks: newTasks,
       };
     }
+    case ACTION_TYPES.DELETE_TASK: {
+      const { id } = action;
+      const { tasks } = state;
+
+      const newTasks = tasks.filter(task => task.id !== id);
+
+      return {
+        ...state,
+        tasks: newTasks,
+      };
+    }
+    case ACTION_TYPES.UPDATE_TASK: {
+      const { id, values } = action;
+      const { tasks } = state;
+
+      const newTasks = [...tasks];
+      const taskIndex = newTasks.findIndex(task => task.id === id);
+      const task = newTasks[taskIndex];
+      newTasks[taskIndex] = { ...task, ...values };
+
+      return {
+        ...state,
+        tasks: newTasks,
+      };
+    }
 
     default:
-      break;
+      return state;
   }
 }
+
+export default reducer;
