@@ -1,5 +1,6 @@
 import { Formik, Form, Field } from 'formik';
-import { createTask } from '../actions/taskCreators';
+// import { createTask } from '../actions/taskCreators';
+import * as TaskActionCreators from '../actions/taskCreators';
 import { connect } from 'react-redux';
 
 const TaskForm = props => {
@@ -12,8 +13,8 @@ const TaskForm = props => {
   return (
     <Formik
       initialValues={{
-        isDone: false,
         body: '',
+        isDone: false,
       }}
       onSubmit={onSubmit}
     >
@@ -26,8 +27,11 @@ const TaskForm = props => {
   );
 };
 
+// const mapDispatchToProps = dispatch => ({
+//   createTaskAction: values => dispatch(createTask(values)),
+// });
 const mapDispatchToProps = dispatch => ({
-  createTaskAction: values => dispatch(createTask(values)),
+  createTaskAction: values => dispatch(TaskActionCreators.createTaskRequest(values)),
 });
 
 export default connect(null, mapDispatchToProps)(TaskForm);
