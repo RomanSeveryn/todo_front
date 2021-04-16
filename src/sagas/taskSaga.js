@@ -6,7 +6,7 @@ export function * createTaskSaga (action) {
   try {
     const {
       data: { 
-        data: [task]
+        data: task
        },
     } = yield API.createTask(action.values);
 

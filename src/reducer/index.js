@@ -66,6 +66,7 @@ function reducer (state = initialState, action) {
       return {
         ...state,
         isFetching: false,
+        error: null,
         tasks: [...state.tasks, task],
       };
     }

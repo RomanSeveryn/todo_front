@@ -4,6 +4,7 @@ import * as TaskCreators from '../actions/taskCreators';
 const TaskList = props => {
   // const { tasks, updateAction, deleteAction } = props;
   const { tasks, isFetcheing, error } = props;
+  console.log(tasks)
   return (
     // <section>
     //   <h1>Task List</h1>
@@ -37,7 +38,7 @@ const TaskList = props => {
       {error && JSON.stringify(error)}
       <ul>
         {tasks.map(task => (
-          <li key={task.id}>{JSON.stringify(task, null, 8)}</li>
+          <li key={task.id}>{task.body}</li>
         ))}
       </ul>
     </section>
