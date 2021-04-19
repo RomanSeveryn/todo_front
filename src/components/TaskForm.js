@@ -1,25 +1,23 @@
 import { Formik, Form, Field } from 'formik';
-// import { createTask } from '../actions/taskCreators';
 import * as TaskActionCreators from '../actions/taskCreators';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 const TaskForm = props => {
-  const { createTaskAction } = props;
-
+  const dispatch = useDispatch();
+  const values = {
+    body: '',
+    deadline: '',
+    isDone: false,
+  };
   const onSubmit = (values, formikBag) => {
-    createTaskAction(values);
+    dispatch(TaskActionCreators.createTaskRequest(values));
     formikBag.resetForm();
   };
   return (
-    <Formik
-      initialValues={{
-        body: '',
-        isDone: false,
-      }}
-      onSubmit={onSubmit}
-    >
+    <Formik initialValues={values} onSubmit={onSubmit}>
       <Form>
         <Field name='body' />
+        <Field name='deadline' type='date' />
         <button type='submit'>Create Task</button>
         <button type='reset'>Reset Task</button>
       </Form>
@@ -27,11 +25,4 @@ const TaskForm = props => {
   );
 };
 
-// const mapDispatchToProps = dispatch => ({
-//   createTaskAction: values => dispatch(createTask(values)),
-// });
-const mapDispatchToProps = dispatch => ({
-  createTaskAction: values => dispatch(TaskActionCreators.createTaskRequest(values)),
-});
-
-export default connect(null, mapDispatchToProps)(TaskForm);
+export default TaskForm;

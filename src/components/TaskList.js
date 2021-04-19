@@ -1,40 +1,21 @@
-import { connect } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as TaskCreators from '../actions/taskCreators';
 
 const TaskList = props => {
-  // const { tasks, updateAction, deleteAction } = props;
-  const { tasks, isFetcheing, error } = props;
-  console.log(tasks)
+  const { tasks, isFetching, error } = useSelector(task => task);
+  const dispatch = useDispatch();
+  const { getTasksRequest } = bindActionCreators(TaskCreators, dispatch);
+
+  useEffect(() => {
+    getTasksRequest();
+  }, []);
+
   return (
-    // <section>
-    //   <h1>Task List</h1>
-    //   <ul>
-    //     {tasks.map(task => (
-    //       <li key={task.id}>
-    //         <div>
-    //           <h1>ID: {task.id}</h1>
-    //           <div>{task.body}</div>
-    //           <input
-    //             type='checkbox'
-    //             checked={task.isDone}
-    //             onChange={({ target: { checked } }) =>
-    //               updateAction({
-    //                 id: task.id,
-    //                 values: {
-    //                   isDone: checked,
-    //                 },
-    //               })
-    //             }
-    //           />
-    //         </div>
-    //         <button onClick={() => deleteAction(task.id)}>Delete task</button>
-    //       </li>
-    //     ))}
-    //   </ul>
-    // </section>
     <section>
       <h1>Task List</h1>
-      {isFetcheing && 'LOADING...'}
+      {isFetching && 'LOADING...'}
       {error && JSON.stringify(error)}
       <ul>
         {tasks.map(task => (
@@ -44,10 +25,5 @@ const TaskList = props => {
     </section>
   );
 };
-const mapStateToProps = ( tasks ) => tasks;
-// const mapDispatchToProps = dispatch => ({
-//   deleteAction: id => dispatch(TaskCreators.deleteTask(id)),
-//   updateAction: ({ id, values }) =>
-//     dispatch(TaskCreators.updateTask({ id, values })),
-// });
-export default connect(mapStateToProps)(TaskList);
+
+export default TaskList;

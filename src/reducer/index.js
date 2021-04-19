@@ -1,87 +1,68 @@
 import ACTION_TYPES from '../actions/actionTypes';
+import produce from 'immer';
 
 const initialState = {
-  // tasks: [
-  //   {
-  //     id: 0,
-  //     body: 'test task',
-  //     isDone: false,
-
-  //   },
-  // ],
   tasks: [],
   isFetching: false,
   error: null,
 };
 
-let serial = 1;
+const handlers = {
+  [ACTION_TYPES.CREATE_TASK_REQUEST]: produce((draftState, action) => {
+    draftState.isFetching = true;
+  }),
+  [ACTION_TYPES.CREATE_TASK_SUCCESS]: produce((draftState, action) => {
+    const {
+      payload: { task },
+    } = action;
+    draftState.tasks.push(task);
+  }),
+  [ACTION_TYPES.CREATE_TASK_ERROR]: produce((draftState, action) => {
+    const {
+      payload: { error },
+    } = action;
+    draftState.error.push(error);
+  }),
+  [ACTION_TYPES.GET_TASKS_REQUEST]: produce(draftState => {
+    draftState.isFetching = true;
+  }),
+  [ACTION_TYPES.GET_TASKS_SUCCESS]: produce((draftState, action) => {
+    const {
+      payload: { tasks },
+    } = action;
+    draftState.tasks.push(...tasks);
+  }),
+  [ACTION_TYPES.GET_TASKS_ERROR]: produce((draftState, action) => {
+    const {
+      payload: { error },
+    } = action;
+    draftState.error = error;
+  }),
+  [ACTION_TYPES.DELETE_TASK_REQUEST]: produce(draftState => {
+    draftState.isFetching = true;
+  }),
+  [ACTION_TYPES.DELETE_TASK_SUCCESS]: produce((draftState, action) => {
+    const {
+      payload: { id },
+    } = action;
+    draftState.tasks = draftState.tasks.filter(task => task.id !== id);
+  }),
+  [ACTION_TYPES.DELETE_TASK_ERROR]: produce((draftState, action) => {
+    const {
+      payload: { error },
+    } = action;
+    draftState.error = error;
+  }),
+};
 
 function reducer (state = initialState, action) {
-  switch (action.type) {
-    // case ACTION_TYPES.CREATE_TASK: {
-    //   const { tasks } = state;
-    //   const { values: task } = action;
+  const { type } = action;
+  const handler = handlers[type];
 
-    //   const newTasks = [...tasks, { ...task, id: serial++ }];
-    //   return {
-    //     ...state,
-    //     tasks: newTasks,
-    //   };
-    // }
-    // case ACTION_TYPES.DELETE_TASK: {
-    //   const { id } = action;
-    //   const { tasks } = state;
-
-    //   const newTasks = tasks.filter(task => task.id !== id);
-
-    //   return {
-    //     ...state,
-    //     tasks: newTasks,
-    //   };
-    // }
-    // case ACTION_TYPES.UPDATE_TASK: {
-    //   const { id, values } = action;
-    //   const { tasks } = state;
-
-    //   const newTasks = [...tasks];
-    //   const taskIndex = newTasks.findIndex(task => task.id === id);
-    //   const task = newTasks[taskIndex];
-    //   newTasks[taskIndex] = { ...task, ...values };
-
-    //   return {
-    //     ...state,
-    //     tasks: newTasks,
-    //   };
-    // }
-
-    case ACTION_TYPES.CREATE_TASK_REQUEST: {
-      return {
-        ...state,
-        isFetching: true,
-      };
-    }
-
-    case ACTION_TYPES.CREATE_TASK_SUCCESS: {
-      const { values: task } = action;
-      return {
-        ...state,
-        isFetching: false,
-        error: null,
-        tasks: [...state.tasks, task],
-      };
-    }
-
-    case ACTION_TYPES.CREATE_TASK_ERROR: {
-      const { error } = action;
-      return {
-        ...state,
-        isFetching: false,
-        error,
-      };
-    }
-    default:
-      return state;
+  if (handler) {
+    return handler(state, action);
   }
+  return state;
 }
 
 export default reducer;

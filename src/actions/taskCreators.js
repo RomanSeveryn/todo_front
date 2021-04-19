@@ -1,33 +1,31 @@
 import ACTION_TYPES from './actionTypes';
 
-// export const createTask = values => ({
-//   type: ACTION_TYPES.CREATE_TASK,
-//   values,
-// });
-
-// export const updateTask = ({ id, values }) => ({
-//   type: ACTION_TYPES.UPDATE_TASK,
-//   id,
-//   values,
-// });
-
-// export const deleteTask = id => ({
-//   type: ACTION_TYPES.DELETE_TASK,
-//   id,
-// })
-
-
-export const createTaskRequest = values => ({
+export const createTaskRequest = task => ({
   type: ACTION_TYPES.CREATE_TASK_REQUEST,
-  values,
+  payload: { task },
 });
 
-export const createTaskSuccess = values => ({
+export const createTaskSuccess = task => ({
   type: ACTION_TYPES.CREATE_TASK_SUCCESS,
-  values,
+  payload: { task },
 });
 
 export const createTaskError = error => ({
   type: ACTION_TYPES.CREATE_TASK_ERROR,
-  error,
+  payload: { error },
+});
+
+export const getTasksRequest = tasks => ({
+  type: ACTION_TYPES.GET_TASKS_REQUEST,
+  payload: { tasks },
+});
+
+export const getTasksSuccess = tasks => ({
+  type: ACTION_TYPES.GET_TASKS_SUCCESS,
+  payload: { tasks },
+});
+
+export const getTasksError = error => ({
+  type: ACTION_TYPES.GET_TASKS_ERROR,
+  payload: { error },
 });
