@@ -25,3 +25,17 @@ export function * getTasksSaga (action) {
     yield put(TaskActionCreators.getTasksError(error));
   }
 }
+
+export function * deleteTaskSaga (action) {
+  try {
+    const {payload: {id},
+  } = action;
+    const {
+      data: { data: taskId },
+    } = yield API.deleteTask({taskId: id});
+
+    yield put(TaskActionCreators.deleteTaskSuccess(taskId));
+  } catch (error) {
+    yield put(TaskActionCreators.deleteTaskError(error));
+  }
+}

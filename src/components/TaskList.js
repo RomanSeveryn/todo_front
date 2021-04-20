@@ -2,11 +2,16 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TaskCreators from '../actions/taskCreators';
+import Task from './Task';
 
 const TaskList = props => {
   const { tasks, isFetching, error } = useSelector(task => task);
   const dispatch = useDispatch();
-  const { getTasksRequest } = bindActionCreators(TaskCreators, dispatch);
+  const {
+    getTasksRequest,
+    clearTaskError,
+    deleteTaskRequest,
+  } = bindActionCreators(TaskCreators, dispatch);
 
   useEffect(() => {
     getTasksRequest();
@@ -16,10 +21,16 @@ const TaskList = props => {
     <section>
       <h1>Task List</h1>
       {isFetching && 'LOADING...'}
-      {error && JSON.stringify(error)}
+
+      {error && (
+        <div style={{ color: 'red', display: 'flex' }}>
+          <p>{error.message}</p>
+          <button onClick={clearTaskError}>X</button>
+        </div>
+      )}
       <ul>
         {tasks.map(task => (
-          <li key={task.id}>{task.body}</li>
+          <li key={task.id}>{<Task {...task} deleteTaskRequest={deleteTaskRequest}/>}</li>
         ))}
       </ul>
     </section>

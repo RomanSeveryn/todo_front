@@ -10,4 +10,4 @@ export const createTask = data => httpClient.post('/task', data);
 export const getTasks = data => httpClient.get('/tasks', data);
 
 export const deleteTask = ({ taskId } = {}) =>
-  httpClient.delete(`/task${taskId}`);
+  httpClient.delete(`/task/${taskId}`);
