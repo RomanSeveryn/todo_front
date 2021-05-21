@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as TaskCreators from '../actions/taskCreators';
-import Task from './Task';
+import * as TaskCreators from '../../actions/taskCreators';
+import Task from '../Task';
+import style from "./TaskList.module.scss"
 
 const TaskList = props => {
   const { tasks, isFetching, error } = useSelector(task => task);
@@ -30,7 +31,7 @@ const TaskList = props => {
       )}
       <ul>
         {tasks.map(task => (
-          <li key={task.id}>{<Task {...task} deleteTaskRequest={deleteTaskRequest}/>}</li>
+          <li className={style.task} key={task.id}>{<Task {...task} deleteTaskRequest={deleteTaskRequest}/>}</li>
         ))}
       </ul>
     </section>

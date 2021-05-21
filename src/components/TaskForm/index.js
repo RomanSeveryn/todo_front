@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from 'formik';
-import * as TaskActionCreators from '../actions/taskCreators';
+import * as TaskActionCreators from '../../actions/taskCreators';
 import { connect, useDispatch } from 'react-redux';
+import style from './TaskForm.module.scss'
 
 const TaskForm = props => {
   const dispatch = useDispatch();
@@ -15,11 +16,11 @@ const TaskForm = props => {
   };
   return (
     <Formik initialValues={values} onSubmit={onSubmit}>
-      <Form>
-        <Field name='body' />
-        <Field name='deadline' type='date' />
-        <button type='submit'>Create Task</button>
-        <button type='reset'>Reset Task</button>
+      <Form className={style.form}>
+        <Field className={style.field} name='body' placeholder="Add Todo"/>
+        <Field className={style.field} name='deadline' type='date' />
+        <button className={style.button} type='submit'>+</button>
+        <button className={style.button} type='reset'>-</button>
       </Form>
     </Formik>
   );

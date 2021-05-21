@@ -1,11 +1,9 @@
-import TaskForm from './components/TaskForm';
-import TaskList from './components/TaskList';
+import Todo from './page';
 
 const App = props => {
   return (
-    <div>
-      <TaskForm />
-      <TaskList/>
+    <div style={{display:'flex',justifyContent:'center'}}>
+      <Todo/>
     </div>
   );
 }
