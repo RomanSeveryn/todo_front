@@ -1,8 +1,10 @@
-import './App.css';
+import Todo from './page';
 
-function App() {
+const App = props => {
   return (
-    
+    <div style={{display:'flex',justifyContent:'center'}}>
+      <Todo/>
+    </div>
   );
 }
 
